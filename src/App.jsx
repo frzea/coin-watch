@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
-import { CoinList } from './coin-list.jsx'
-import { API } from './API.jsx'
-import './App.css'
+import { CoinList } from './components/coin-list.jsx'
+import { API } from './components/API.jsx'
+import { Search } from './components/search.jsx' 
 
 
 export default function App(){
   const [allCoins, setAllCoins] = useState([]);
-  const [userCoins, setUserCoins] = useState([]);
+  const [userCoins, setUserCoins] = useState(JSON.parse(localStorage.getItem('coins')));
 
   //localStorage.clear();
-  console.log(userCoins);
+  //console.log(userCoins);
 
   useEffect(() => {
     /*async function getData() {
@@ -24,27 +24,24 @@ export default function App(){
 
 
   function AddToLocalStorage( coin ){
-
     const current = JSON.parse(localStorage.getItem('coins')) || [];
-    if(current.includes(coin)) return; // уже есть
-
+    if(current.includes(coin)) return;
     const updated = [...current, coin];
     localStorage.setItem('coins', JSON.stringify(updated));
     setUserCoins(updated);
+  }
 
-    /*if(localStorage.getItem('coins') === null ){
-        localStorage.setItem('coins',JSON.stringify([coin]));
-    } else {
-      localStorage.setItem('coins', JSON.stringify([...JSON.parse(localStorage.getItem('coins')), coin]));
-    };
-    setUserCoins(JSON.parse(localStorage.getItem('coins')));*/
+  function DelLocalStorage( coin ){
+    const current = JSON.parse(localStorage.getItem('coins'));
+    const updated = [...current].filter(item => item !== coin);
+    localStorage.setItem('coins', JSON.stringify(updated));
+    setUserCoins(updated);
   }
 
 
   return ( 
     <>
-      <input placeholder="Add item" />
-      <button>Добавить</button>
+      <Search/>
       <div>
         {allCoins.map(coin => (
             <li key={coin.id}> 
@@ -66,8 +63,7 @@ export default function App(){
               <img key={coin.id} src={coin.image} alt={coin.symbol} width="15" height="15" />
               {coin.name} --  {coin.current_price}
               </label>
-              <button onClick={()=>{AddToLocalStorage(coin.symbol)}}>+</button>
-              <button>-</button>
+              <button onClick={()=>{DelLocalStorage(coin.symbol)}} >-</button>
             </li>
           ) 
         )}
