@@ -1,27 +1,18 @@
 import { useState, useEffect } from 'react'
 import { getCoins } from '../services/getCoins.jsx';
+import { CoinList } from './coinList.jsx';
 
-export function Search(){
+export function Search({ AddToLocalStorage, DelLocalStorage }){
     const [strSearch, setStrSearch] = useState('');
-    const [state, setState] = useState('default');
+    const [resultSearchList, setResultSearchList] = useState([]);
+    //const [state, setState] = useState('default');
 
-    /*async function findCoin(strFind){
-
-       const resultFind = await fetch(`https://api.coingecko.com/api/v3/search?query=${strFind}`).then(result => result.json())
-       console.log(resultFind);
-    }*/
-    /*
-    async function findCoin(strFind) {
-        const resultFind =  new Promise(resolve => {
-            setTimeout(()=>{fetch(`https://api.coingecko.com/api/v3/search?query=${strFind}`).then(result => result.json())}, 3000);
-        })
-        console.log(resultFind); 
-    }*/
+    console.log(resultSearchList);
 
     useEffect(()=>{
         const dilaySearch = setTimeout(async () => {
-            const resultFind = await getCoins(strSearch);
-            console.log(resultFind);    
+            const resultFind = await getCoins(`https://api.coingecko.com/api/v3/search?query=${strSearch}`);
+            setResultSearchList(resultFind.coins);   
         }, 3000);
 
         return ()=>{
@@ -32,9 +23,10 @@ export function Search(){
     return(
         <>
             <input placeholder="Add item" onChange={e => setStrSearch(e.target.value)}/>
-            <button /*onClick={() => findCoin(strSearch)} disabled={state == 'Search' && true}*/ >Добавить</button>
+            <button >Добавить</button>
             <hr/>
-            <div>Loading...</div>
+            {strSearch !== '' && (<div>Loading...</div>)}
+            <CoinList data={resultSearchList} form={'add'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
             <hr/>
         </>
     )

@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react'
-import { CoinList } from './components/coin-list.jsx'
+import { CoinList } from './components/coinList.jsx'
 import { API } from './components/API.jsx'
-import { Search } from './components/search.jsx' 
+import { Search } from './components/search.jsx'
+import { getCoins } from './services/getCoins.jsx' 
 
 
 export default function App(){
   const [allCoins, setAllCoins] = useState([]);
-  const [userCoins, setUserCoins] = useState(JSON.parse(localStorage.getItem('coins')));
+  const [userCoinsDATA, setUserCoinsDATA] = useState([]);
+  const [userCoins, setUserCoins] = useState(JSON.parse(localStorage.getItem('coins')) || []);
+
 
   //localStorage.clear();
   //console.log(userCoins);
 
   useEffect(() => {
     /*async function getData() {
-      const dataJSON = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10')
-        .then(res => res.json())  
+      const dataJSON = await getCoins('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10')
         console.log(dataJSON);
         setAllCoins(dataJSON);
     }
@@ -22,52 +24,43 @@ export default function App(){
     setAllCoins(API);
   }, []);
 
+  useEffect(() => {
+
+    if (userCoins.length === 0) {
+      setUserCoinsDATA([]);
+      return;
+    }
+    async function getUserCoinList() {
+      const userCoinList = await getCoins(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${userCoins.join(',')}`);
+      setUserCoinsDATA(userCoinList);
+    }
+    getUserCoinList(); 
+  }, [userCoins]);
+
+
+  // Синхронизация с localStore
+  useEffect(()=>{
+    localStorage.setItem('coins', JSON.stringify(userCoins));  
+  },[userCoins]);
 
   function AddToLocalStorage( coin ){
-    const current = JSON.parse(localStorage.getItem('coins')) || [];
-    if(current.includes(coin)) return;
-    const updated = [...current, coin];
-    localStorage.setItem('coins', JSON.stringify(updated));
-    setUserCoins(updated);
+    console.log(coin);
+    if(userCoins.includes(coin)) return;
+    setUserCoins([...userCoins, coin]);
   }
 
   function DelLocalStorage( coin ){
-    const current = JSON.parse(localStorage.getItem('coins'));
-    const updated = [...current].filter(item => item !== coin);
-    localStorage.setItem('coins', JSON.stringify(updated));
+    const updated = [...userCoins].filter(item => item !== coin);
     setUserCoins(updated);
   }
 
 
   return ( 
     <>
-      <Search/>
-      <div>
-        {allCoins.map(coin => (
-            <li key={coin.id}> 
-              <label>
-              <img key={coin.id} src={coin.image} alt={coin.symbol} width="15" height="15" />
-              {coin.name} --  {coin.current_price}
-              </label>
-              <button onClick={()=>{AddToLocalStorage(coin.symbol)}}>+</button>
-              <button>-</button>
-            </li>
-          ) 
-        )}
-      </div>
+      <Search AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+      <CoinList data={allCoins} form={'default'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
       <hr/>
-        <div>
-        {[...allCoins].filter(coin => userCoins.includes(coin.symbol)).map(coin => (
-            <li key={coin.id}> 
-              <label>
-              <img key={coin.id} src={coin.image} alt={coin.symbol} width="15" height="15" />
-              {coin.name} --  {coin.current_price}
-              </label>
-              <button onClick={()=>{DelLocalStorage(coin.symbol)}} >-</button>
-            </li>
-          ) 
-        )}
-      </div>
+      <CoinList data={userCoinsDATA} form={'user'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
     </>
   );
 }
