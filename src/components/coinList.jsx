@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Link } from "react-router-dom";
+
 
 
 export function CoinList({ data, form, AddToLocalStorage, DelLocalStorage }){
@@ -7,6 +9,7 @@ export function CoinList({ data, form, AddToLocalStorage, DelLocalStorage }){
         <div>
           {data.map(coin => (
               <li key={coin.id}> 
+                {<Link to={'/contacts/' + coin.id}>Login again</Link>}
                 <img src={ form=='add'&& coin.thumb || coin.image } alt={coin.id} width="15" height="15" />
                 {coin.name} --  {coin.current_price}
                 {form == 'default' && <button onClick={()=>{AddToLocalStorage(coin.id)}}>+</button>}

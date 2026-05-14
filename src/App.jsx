@@ -3,6 +3,9 @@ import { CoinList } from './components/coinList.jsx'
 import { API } from './components/API.jsx'
 import { Search } from './components/search.jsx'
 import { getCoins } from './services/getCoins.jsx' 
+import './index.css'
+
+import { Outlet } from "react-router-dom";
 
 
 export default function App(){
@@ -57,10 +60,17 @@ export default function App(){
 
   return ( 
     <>
-      <Search AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
-      <CoinList data={allCoins} form={'default'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
-      <hr/>
-      <CoinList data={userCoinsDATA} form={'user'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+      <div id="main">
+        <div id ="sidebar">
+          <Search AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+          <CoinList data={allCoins} form={'default'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+          <hr/>
+          <CoinList data={userCoinsDATA} form={'user'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+        </div>
+        <div id="detail">
+          <Outlet />
+        </div>
+      </div>
     </>
   );
 }
