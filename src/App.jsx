@@ -14,8 +14,6 @@ export default function App(){
   const [userCoins, setUserCoins] = useState(JSON.parse(localStorage.getItem('coins')) || []);
 
 
-  //localStorage.clear();
-  //console.log(userCoins);
 
   useEffect(() => {
     /*async function getData() {
@@ -47,7 +45,6 @@ export default function App(){
   },[userCoins]);
 
   function AddToLocalStorage( coin ){
-    console.log(coin);
     if(userCoins.includes(coin)) return;
     setUserCoins([...userCoins, coin]);
   }

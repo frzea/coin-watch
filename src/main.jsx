@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     element: <App />,
     children:[
       {
-        path: "contacts/:contactId",
+        path: "coin/:coinId",
         element: <CoinPage/>,
       },
     ]
