@@ -15,3 +15,10 @@
   width: 100%;
 }
 
+#coin-tools {
+  display: flex;
+}
+
+#coin-tools div {
+  width: 100%;
+}
