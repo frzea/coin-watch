@@ -2,7 +2,8 @@ import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getCoins } from "../services/getCoins";
 import { Graf } from "./graf";
-import { PNL } from "./PNL";
+//import { PNL } from "./PNL";
+import { CoinTools } from "./CoinTools";
 
 export function CoinPage(){
     const { coinId } = useParams();
@@ -60,14 +61,20 @@ export function CoinPage(){
                         </div>
                     </div>
                 )}
-                <div id="coin-tools">
-                    <PNL key={coinId} coinId = {coinId} lastPrice={coinData?.tickers?.[0]?.last}/>
-                    <div id="plan">
-                        PLAN
-                    </div>
-                </div>
+                <CoinTools coinId={coinId} lastPrice={coinData?.tickers?.[0]?.last}/>
             </div>
         }
         </>
     )
 }
+
+
+
+/*
+<div id="coin-tools">
+<PNL key={coinId} coinId = {coinId} lastPrice={coinData?.tickers?.[0]?.last}/>
+<div id="plan">
+PLAN
+</div>
+</div>
+*/
