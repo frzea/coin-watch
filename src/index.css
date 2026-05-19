@@ -17,6 +17,7 @@
 
 #coin-tools {
   display: flex;
+  gap: 10px;
 }
 
 #coin-tools div {

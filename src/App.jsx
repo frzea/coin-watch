@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CoinList } from './components/coinList.jsx'
+import { CoinList } from './components/coin-list.jsx'
 import { API } from './components/API.jsx'
 import { Search } from './components/search.jsx'
 import { getCoins } from './services/getCoins.jsx' 

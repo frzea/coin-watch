@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getCoins } from '../services/getCoins.jsx';
-import { CoinList } from './coinList.jsx';
+import { CoinList } from './coin-list.jsx';
 
 export function Search({ AddToLocalStorage, DelLocalStorage }){
     const [strSearch, setStrSearch] = useState('');

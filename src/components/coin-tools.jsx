@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { PNL } from "./PNL"
+import { TaskSeduler } from "./task-scheduler";
 
 export function CoinTools({coinId, lastPrice}){
     const [userCoinsToolsData, setUserCoinsToolsData] = useState(JSON.parse(localStorage.getItem('userCoinTools')) || {});
 
-    
     
     function updateCoinTools(updater){
         // Получаем даные по монете, иначе создаем пустой обьет-каркас
@@ -21,7 +21,12 @@ export function CoinTools({coinId, lastPrice}){
 
     return(
         <div id="coin-tools">
-            <PNL coinId={coinId} lastPrice={lastPrice} userPnlPosition={userCoinsToolsData} updateCoinTools={updateCoinTools}/>
+            <div>
+                <PNL coinId={coinId} lastPrice={lastPrice} userPnlPosition={userCoinsToolsData} updateCoinTools={updateCoinTools}/>
+            </div>
+            <div>
+                <TaskSeduler coinId={coinId} userPlanCommits={userCoinsToolsData} updateCoinTools={updateCoinTools}/>
+            </div>
         </div>
     )
 }

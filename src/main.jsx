@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import { CoinPage } from './components/CoinPage.jsx';
+import { CoinPage } from './components/coin-page.jsx';
 import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 
 

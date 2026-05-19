@@ -4,8 +4,6 @@ export function PNL({ coinId, lastPrice, userPnlPosition, updateCoinTools}){
    const [addPNL, setAddPNL] = useState(false);
    const [newPosition, setNewPosition] = useState({qty : '', price : '', date : ''})
 
-
-
    const totalInvested = userPnlPosition[coinId].positions.reduce((sum, p) => sum + p.qty * p.price, 0);
    const currentValue = userPnlPosition[coinId].positions.reduce((sum, p) => sum + p.qty * lastPrice, 0);
    const pnl = currentValue - totalInvested;

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getCoins } from "../services/getCoins";
 import { Graf } from "./graf";
 //import { PNL } from "./PNL";
-import { CoinTools } from "./CoinTools";
+import { CoinTools } from "./coin-tools";
 
 export function CoinPage(){
     const { coinId } = useParams();
