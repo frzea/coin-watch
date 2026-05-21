@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { CoinList } from './components/coin-list.jsx'
 import { API } from './components/API.jsx'
 import { Search } from './components/search.jsx'
-import { getCoins } from './services/getCoins.jsx' 
+import { getCoins } from './services/getCoins.jsx'
+import { useLocalStorage } from './castom-hooks/useLocalStorage.jsx' 
 import './index.css'
 
 import { Outlet } from "react-router-dom";
@@ -11,8 +12,7 @@ import { Outlet } from "react-router-dom";
 export default function App(){
   const [allCoins, setAllCoins] = useState([]);
   const [userCoinsDATA, setUserCoinsDATA] = useState([]);
-  const [userCoins, setUserCoins] = useState(JSON.parse(localStorage.getItem('coins')) || []);
-
+  const [userCoins, setUserCoins] = useLocalStorage('coins', []);
 
 
   useEffect(() => {
@@ -38,18 +38,12 @@ export default function App(){
     getUserCoinList(); 
   }, [userCoins]);
 
-
-  // Синхронизация с localStore
-  useEffect(()=>{
-    localStorage.setItem('coins', JSON.stringify(userCoins));  
-  },[userCoins]);
-
-  function AddToLocalStorage( coin ){
-    if(userCoins.includes(coin)) return;
+  function addCoin( coin ){
+    if (userCoins.some(c => c.id === coin.id)) return;
     setUserCoins([...userCoins, coin]);
   }
 
-  function DelLocalStorage( coin ){
+  function removeCoin( coin ){
     const updated = userCoins.filter(item => item !== coin);
     setUserCoins(updated);
   }
@@ -59,10 +53,10 @@ export default function App(){
     <>
       <div id="main">
         <div id ="sidebar">
-          <Search AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
-          <CoinList data={allCoins} form={'default'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+          <Search addCoin={addCoin} removeCoin={removeCoin}/>
+          <CoinList data={allCoins} form={'default'} addCoin={addCoin} removeCoin={removeCoin}/>
           <hr/>
-          <CoinList data={userCoinsDATA} form={'user'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+          <CoinList data={userCoinsDATA} form={'user'} addCoin={addCoin} removeCoin={removeCoin}/>
         </div>
         <div id="detail">
           <Outlet />

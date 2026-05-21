@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { getCoins } from '../services/getCoins.jsx';
 import { CoinList } from './coin-list.jsx';
 
-export function Search({ AddToLocalStorage, DelLocalStorage }){
+export function Search({ addCoin, removeCoin }){
     const [strSearch, setStrSearch] = useState('');
     const [resultSearchList, setResultSearchList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export function Search({ AddToLocalStorage, DelLocalStorage }){
             <button >Добавить</button>
             <hr/>
             {loading && (<div>Loading...</div>)}
-            <CoinList data={resultSearchList} form={'add'} AddToLocalStorage={AddToLocalStorage} DelLocalStorage={DelLocalStorage}/>
+            <CoinList data={resultSearchList} form={'add'} addCoin={addCoin} removeCoin={removeCoin}/>
             <hr/>
         </>
     )

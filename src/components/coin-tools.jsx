@@ -1,19 +1,13 @@
-import { useEffect, useState } from "react";
 import { PNL } from "./PNL"
 import { TaskSeduler } from "./task-scheduler";
+import { useLocalStorage } from "../castom-hooks/useLocalStorage";
 
 export function CoinTools({coinId, lastPrice}){
-    const [userCoinsToolsData, setUserCoinsToolsData] = useState(JSON.parse(localStorage.getItem('userCoinTools')) || {});
+    const [userCoinsToolsData, setUserCoinsToolsData] = useLocalStorage('userCoinTools', {});
 
-    useEffect(()=>{
-        // Добавляем в LS результат
-        localStorage.setItem('userCoinTools', JSON.stringify(userCoinsToolsData));
-    },[userCoinsToolsData]);
-
-    
     function updateCoinTools(updater){
         // Получаем даные по монете, иначе создаем пустой обьет-каркас
-        const coinData = userCoinsToolsData[coinId] || { positions: [], todos: [] };
+        const coinData = userCoinsToolsData[coinId] ?? { positions: [], todos: [] };
         // Заполняем купленные позиции
         const newCoinData = updater(coinData);
         // Переписываем даные по монете
