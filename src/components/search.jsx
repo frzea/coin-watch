@@ -7,21 +7,26 @@ export function Search({ addCoin, removeCoin }){
     const [resultSearchList, setResultSearchList] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    console.log(resultSearchList);
 
     useEffect(()=>{
 
         if (strSearch === '') {
             setResultSearchList([]);
+            setLoading(false);
             return;
         }
 
         const dilaySearch = setTimeout(async () => {
-            const resultFind = await getCoins(`https://api.coingecko.com/api/v3/search?query=${strSearch}`);
-            setResultSearchList(resultFind.coins);  
+            try{
+                const resultFind = await getCoins(`https://api.coingecko.com/api/v3/search?query=${strSearch}`);
+                setResultSearchList(resultFind.coins);
+            } catch(err) {
+                console.error(err);
+            } finally {
+                setLoading(false); 
+            }
+  
         }, 3000);
-
-        
 
         return ()=>{
           clearTimeout(dilaySearch);  
@@ -30,11 +35,16 @@ export function Search({ addCoin, removeCoin }){
 
     return(
         <>
-            <input placeholder="Add item" onChange={e => setStrSearch(e.target.value)}/>
+            <input placeholder="Add item" onChange={e => {
+                setStrSearch(e.target.value);
+                setLoading(true); 
+            }}/>
             <button >Добавить</button>
             <hr/>
-            {loading && (<div>Loading...</div>)}
-            <CoinList data={resultSearchList} form={'add'} addCoin={addCoin} removeCoin={removeCoin}/>
+            {
+            loading && (<div>Loading...</div>) ||
+            <CoinList data={resultSearchList} form={true} addCoin={addCoin} removeCoin={removeCoin}/>
+            }
             <hr/>
         </>
     )

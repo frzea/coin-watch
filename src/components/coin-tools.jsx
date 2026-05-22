@@ -1,6 +1,6 @@
 import { PNL } from "./PNL"
-import { TaskSeduler } from "./task-scheduler";
-import { useLocalStorage } from "../castom-hooks/useLocalStorage";
+import { TaskScheduler } from "./task-scheduler";
+import { useLocalStorage } from "../custom-hooks/useLocalStorage";
 
 export function CoinTools({coinId, lastPrice}){
     const [userCoinsToolsData, setUserCoinsToolsData] = useLocalStorage('userCoinTools', {});
@@ -22,7 +22,7 @@ export function CoinTools({coinId, lastPrice}){
                 <PNL coinId={coinId} lastPrice={lastPrice} userPnlPosition={userCoinsToolsData} updateCoinTools={updateCoinTools}/>
             </div>
             <div>
-                <TaskSeduler coinId={coinId} userPlanCommits={userCoinsToolsData} updateCoinTools={updateCoinTools}/>
+                <TaskScheduler coinId={coinId} userPlanCommits={userCoinsToolsData} updateCoinTools={updateCoinTools}/>
             </div>
         </div>
     )

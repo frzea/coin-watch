@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function TaskSeduler({coinId, userPlanCommits, updateCoinTools}){
+export function TaskScheduler({coinId, userPlanCommits, updateCoinTools}){
     const [isEdit, setIsEdit] = useState('');
     const [editCommit, setEditCommit] = useState('');
     const [newCommit, setNewCommit] = useState({ id: '' , text : '', done : false, date : ''})
@@ -36,7 +36,7 @@ export function TaskSeduler({coinId, userPlanCommits, updateCoinTools}){
         {userPlanCommits?.[coinId]?.todos?.map(item =>
             ((isEdit === item.id) ? 
             <div>
-                <input type="text" value={editCommit} onChange={e=> setEditCommit(e.target.value)}/>
+                <input key={item.id} type="text" value={editCommit} onChange={e=> setEditCommit(e.target.value)}/>
                 <button onClick={()=> {handleEditCommit(item.id, editCommit)}}>save</button>
                 <button onClick={()=> setIsEdit('')}>esc</button> 
             </div>

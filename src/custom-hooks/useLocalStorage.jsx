@@ -19,7 +19,7 @@ export function useLocalStorage(key, defaultValue){
                 localStorage.removeItem(key);
                 return;
             }
-
+            
             // Проверка для ф-ции 
             const valueToStorage = (typeof newValue === Function) ? newValue(localStorageValue) : newValue;
 

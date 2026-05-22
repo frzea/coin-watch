@@ -3,77 +3,37 @@ import { useParams } from "react-router-dom";
 import { getCoins } from "../services/getCoins";
 import { Graf } from "./graf";
 import { CoinTools } from "./coin-tools";
+import { CoinHeader } from "./coin-header";
 
 export function CoinPage(){
     const { coinId } = useParams();
     const [coinData, setCoinData] = useState([]);
     const [grafData, setGrafData] = useState([]);
-    const [coinInfo, setCoinInfo] = useState(false);
 
     useEffect(()=>{
         async function getData() {
-            const dataJSON = await getCoins(`https://api.coingecko.com/api/v3/coins/${coinId}`);
-            setCoinData(dataJSON);
+            try{
+                const [coin, graf] = await Promise.all([
+                    getCoins(`https://api.coingecko.com/api/v3/coins/${coinId}`),
+                    getCoins(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`)  
+                ]);
+
+                setCoinData(coin);
+                setGrafData(graf);
+            } catch(err) {
+                console.error('Ошибка загрузки данных монеты: ', err);
+            }
         }
         getData();
     },[coinId])
 
-    useEffect(()=>{
-        async function getData() {
-            const dataJSON = await getCoins(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`);
-            setGrafData(dataJSON);
-        }
-        getData();    
-    },[coinId])
+    const coinbaseTicker =  coinData?.tickers?.find(ticker => ticker.market.name === "Coinbase Exchange");
 
     return(
-        <>
-        {coinData  &&
-            <div id="coin-page">
-                <div id="graf">
-                    <Graf grafData={grafData}/>
-                </div>
-                <div>
-                    <h1>
-                        {coinData?.tickers?.[0]?.base}  ({coinData?.localization?.en}) 
-                        <button onClick={()=> setCoinInfo(!coinInfo)}>
-                            {(coinInfo) ? 'Close' : 'Open'} info
-                        </button>
-                    </h1>
-                </div>
-                {coinInfo && (
-                    <div id="coinInfo">
-                        <div>
-                            <h4>
-                                Последняя цена:  {coinData?.tickers?.[0]?.last}
-                            </h4>
-                            <h4>
-                                Капитализация:  {coinData?.tickers?.[0]?.coin_mcap_usd}
-                            </h4>
-                        </div>
-                        <div>
-                            Сылка на witelist: <a href={coinData?.links?.whitepaper}>{coinData?.links?.whitepaper}</a>
-                        </div>
-                        <hr/>
-                        <div>
-                            {coinData?.description?.en}
-                        </div>
-                    </div>
-                )}
-                <CoinTools coinId={coinId} lastPrice={coinData?.tickers?.[0]?.last}/>
-            </div>
-        }
-        </>
+         (!coinData?.tickers) ? <div>Loading...</div> : <div id="coin-page">
+            <Graf grafData={grafData}/>
+            <CoinHeader coinData={coinData}/>
+            <CoinTools coinId={coinId} lastPrice={coinbaseTicker?.last}/>
+        </div>
     )
 }
-
-
-
-/*
-<div id="coin-tools">
-<PNL key={coinId} coinId = {coinId} lastPrice={coinData?.tickers?.[0]?.last}/>
-<div id="plan">
-PLAN
-</div>
-</div>
-*/

@@ -3,7 +3,7 @@ import { CoinList } from './components/coin-list.jsx'
 import { API } from './components/API.jsx'
 import { Search } from './components/search.jsx'
 import { getCoins } from './services/getCoins.jsx'
-import { useLocalStorage } from './castom-hooks/useLocalStorage.jsx' 
+import { useLocalStorage } from './custom-hooks/useLocalStorage.jsx' 
 import './index.css'
 
 import { Outlet } from "react-router-dom";
@@ -39,7 +39,7 @@ export default function App(){
   }, [userCoins]);
 
   function addCoin( coin ){
-    if (userCoins.some(c => c.id === coin.id)) return;
+    if (userCoins.some(c => c.id === coin)) return;
     setUserCoins([...userCoins, coin]);
   }
 
@@ -54,9 +54,9 @@ export default function App(){
       <div id="main">
         <div id ="sidebar">
           <Search addCoin={addCoin} removeCoin={removeCoin}/>
-          <CoinList data={allCoins} form={'default'} addCoin={addCoin} removeCoin={removeCoin}/>
+          <CoinList data={allCoins} form={true} addCoin={addCoin} removeCoin={removeCoin}/>
           <hr/>
-          <CoinList data={userCoinsDATA} form={'user'} addCoin={addCoin} removeCoin={removeCoin}/>
+          <CoinList data={userCoinsDATA} form={false} addCoin={addCoin} removeCoin={removeCoin}/>
         </div>
         <div id="detail">
           <Outlet />
