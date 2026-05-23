@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { CoinList } from './components/coin-list.jsx'
-import { API } from './components/API.jsx'
 import { Search } from './components/search.jsx'
-import { getCoins } from './services/getCoins.jsx'
+import { getCoins } from './services/get-coins.jsx'
 import { useLocalStorage } from './custom-hooks/useLocalStorage.jsx' 
 import './index.css'
 
@@ -10,53 +9,59 @@ import { Outlet } from "react-router-dom";
 
 
 export default function App(){
-  const [allCoins, setAllCoins] = useState([]);
-  const [userCoinsDATA, setUserCoinsDATA] = useState([]);
-  const [userCoins, setUserCoins] = useLocalStorage('coins', []);
-
+  const [coinsData, setCoinsData] = useLocalStorage('coins', {topCoins : [], userCoins : []});
 
   useEffect(() => {
-    /*async function getData() {
-      const dataJSON = await getCoins('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10')
-        console.log(dataJSON);
-        setAllCoins(dataJSON);
-    }
-    getData();*/
-    setAllCoins(API);
-  }, []);
+    
+    async function getData() {
+      console.log('app вызов');
+      const storedData = JSON.parse(localStorage.getItem('coins') || '{topCoins : [], userCoins : []}');
+      const userCoinsID = storedData.userCoins.map(c => c.id);
+      const topCoinsURL = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10';
+      const userCoinsURL = userCoinsID.length ?  `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${userCoinsID}` : null;
 
-  useEffect(() => {
+      try{
+        const [topCoinsData, userCoinsData] = await Promise.all([
+          getCoins(topCoinsURL),
+          userCoinsURL ? getCoins(userCoinsURL) : Promise.resolve([])
+        ]);
 
-    if (userCoins.length === 0) {
-      setUserCoinsDATA([]);
-      return;
-    }
-    async function getUserCoinList() {
-      const userCoinList = await getCoins(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${userCoins.join(',')}`);
-      setUserCoinsDATA(userCoinList);
-    }
-    getUserCoinList(); 
-  }, [userCoins]);
+        const userCoinsSorted = userCoinsID.map(id => userCoinsData.find(c => c.id === id)).filter(Boolean);
+
+        setCoinsData({ topCoins : topCoinsData, userCoins : userCoinsSorted });
+      } catch(err) {
+        console.error('Ошибка загрузки монет:', error);
+      }
+    };
+
+    getData();
+
+    const interval = setInterval(getData, 1 * 60 * 1000);
+
+    return () => {
+      clearInterval(interval)
+    };
+
+  },[]);
 
   function addCoin( coin ){
-    if (userCoins.some(c => c.id === coin)) return;
-    setUserCoins([...userCoins, coin]);
+    if (coinsData.userCoins.some(c => c.id === coin.id)) return;
+    setCoinsData({...coinsData, userCoins : [...coinsData.userCoins, coin]});
   }
 
   function removeCoin( coin ){
-    const updated = userCoins.filter(item => item !== coin);
-    setUserCoins(updated);
+    const updated = coinsData.userCoins.filter(c => c.id !== coin.id);
+    setCoinsData({...coinsData, userCoins : updated});
   }
-
 
   return ( 
     <>
       <div id="main">
         <div id ="sidebar">
           <Search addCoin={addCoin} removeCoin={removeCoin}/>
-          <CoinList data={allCoins} form={true} addCoin={addCoin} removeCoin={removeCoin}/>
+          <CoinList data={coinsData?.topCoins} form={true} addCoin={addCoin} removeCoin={removeCoin}/>
           <hr/>
-          <CoinList data={userCoinsDATA} form={false} addCoin={addCoin} removeCoin={removeCoin}/>
+          <CoinList data={coinsData?.userCoins} form={false} addCoin={addCoin} removeCoin={removeCoin}/>
         </div>
         <div id="detail">
           <Outlet />

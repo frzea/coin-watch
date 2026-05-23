@@ -9,8 +9,8 @@ export function CoinList({ data, form, addCoin, removeCoin }){
         <li key={coin.id}> 
           <img src={ coin.image ?? coin.thumb } alt={coin.id} width="15" height="15" />
           {<Link to={'/coin/' + coin.id}>{coin.name}</Link>} --  {coin.current_price}
-          {form === true ? <button onClick={()=>{addCoin(coin.id)}}>+</button> :
-          <button onClick={()=>{removeCoin(coin.id)}} >-</button>}
+          {form === true ? <button onClick={()=>{addCoin(coin)}}>+</button> :
+          <button onClick={()=>{removeCoin(coin)}} >-</button>}
         </li>
       ))}
     </>

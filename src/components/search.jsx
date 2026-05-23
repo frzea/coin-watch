@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getCoins } from '../services/getCoins.jsx';
+import { getCoins } from '../services/get-coins.jsx';
 import { CoinList } from './coin-list.jsx';
 
 export function Search({ addCoin, removeCoin }){
