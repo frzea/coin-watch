@@ -1,13 +1,13 @@
 import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getCoins } from "../services/get-coins";
-import { Graf } from "./graf";
-import { CoinTools } from "./coin-tools";
-import { CoinHeader } from "./coin-header";
+import { getCoins } from "../services/get-coins.js";
+import { Graf } from "./graf.jsx";
+import { CoinTools } from "./coin-tools.tsx";
+import { CoinHeader } from "./coin-header.js";
 
 export function CoinPage(){
     const { coinId } = useParams();
-    const [grafData, setGrafData] = useState([]);
+    const [grafData, setGrafData] = useState<number[][]>([]);
 
     const storeData = JSON.parse(localStorage.getItem('coins'));
     const coinData = [...storeData.topCoins, ...storeData.userCoins];

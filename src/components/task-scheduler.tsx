@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { Todo, TodoProps } from "./types";
 
-export function TaskScheduler({coinId, userPlanCommits, updateCoinTools}){
-    const [isEdit, setIsEdit] = useState('');
-    const [editCommit, setEditCommit] = useState('');
-    const [newCommit, setNewCommit] = useState({ id: '' , text : '', done : false, date : ''})
+export function TaskScheduler({coinId, userCoinsToolsData, updateCoinTools}: TodoProps){
+    const [isEdit, setIsEdit] = useState<string>('');
+    const [editCommit, setEditCommit] = useState<string>('');
+    const [newCommit, setNewCommit] = useState<Todo>({ id: '' , text : '', done : false, date : ''})
 
-    function updateValCommit(comitText){
+    function updateValCommit(comitText: string){
        setNewCommit( {...newCommit, id : crypto.randomUUID(), text: comitText, date: new Date().toISOString()} )
     }
 
@@ -17,7 +18,7 @@ export function TaskScheduler({coinId, userPlanCommits, updateCoinTools}){
         setNewCommit({ id: '' , text : '', done : false, date : ''})
     }
 
-    function handleEditCommit(id, commit){
+    function handleEditCommit(id: string, commit: string){
         updateCoinTools((coinData)=>({
             ...coinData, 
             todos : coinData.todos.map(dataid =>
@@ -33,7 +34,7 @@ export function TaskScheduler({coinId, userPlanCommits, updateCoinTools}){
         <input type="text" value={newCommit.text} onChange={e => updateValCommit(e.target.value)}/> 
         <button onClick={()=> {handleAddCommit()}}>Add</button>
         <hr/>
-        {userPlanCommits?.[coinId]?.todos?.map(item =>
+        {userCoinsToolsData?.[coinId]?.todos?.map(item =>
             ((isEdit === item.id) ? 
             <div>
                 <input key={item.id} type="text" value={editCommit} onChange={e=> setEditCommit(e.target.value)}/>

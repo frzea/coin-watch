@@ -1,5 +1,5 @@
 
-export async function getCoins(url){
+export async function getCoins(url : string){
   const response = await fetch(url);
 
   if (!response.ok) {
