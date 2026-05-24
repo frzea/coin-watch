@@ -5,7 +5,7 @@ export function TaskScheduler({coinId, userPlanCommits, updateCoinTools}){
     const [editCommit, setEditCommit] = useState('');
     const [newCommit, setNewCommit] = useState({ id: '' , text : '', done : false, date : ''})
 
-    function saveCommit(comitText){
+    function updateValCommit(comitText){
        setNewCommit( {...newCommit, id : crypto.randomUUID(), text: comitText, date: new Date().toISOString()} )
     }
 
@@ -30,7 +30,7 @@ export function TaskScheduler({coinId, userPlanCommits, updateCoinTools}){
     return(
         <>
         PLAN 
-        <input type="text" value={newCommit.text} onChange={e => saveCommit(e.target.value)}/> 
+        <input type="text" value={newCommit.text} onChange={e => updateValCommit(e.target.value)}/> 
         <button onClick={()=> {handleAddCommit()}}>Add</button>
         <hr/>
         {userPlanCommits?.[coinId]?.todos?.map(item =>

@@ -3,15 +3,17 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 
 export function Graf({grafData}){
 
-    if (!grafData?.prices) {
-        return <div>Loading...</div>;
-    }
-    
+    /*
     const data = grafData?.prices?.map(([timestamp, price]) => ({
         date: new Date(timestamp).toLocaleDateString(),
         price: price
     })) || [];
+*/
 
+const data = grafData?.map((candle) => ({
+  date: new Date(candle[0]).toLocaleDateString(),
+  price: parseFloat(candle[4]) // [4] = close price
+})) || [];
 
   return (
     <LineChart

@@ -33,17 +33,17 @@ export function Search({ addCoin, removeCoin }){
         };
     },[strSearch]);
 
+    function handleChangeSearch(e){
+        setStrSearch(e.target.value);
+        setLoading(true); 
+    }
+
     return(
         <>
-            <input placeholder="Add item" onChange={e => {
-                setStrSearch(e.target.value);
-                setLoading(true); 
-            }}/>
-            <button >Добавить</button>
+            <input placeholder="Add item" onChange={e => handleChangeSearch(e)}/>
             <hr/>
             {
-            loading && (<div>Loading...</div>) ||
-            <CoinList data={resultSearchList} form={true} addCoin={addCoin} removeCoin={removeCoin}/>
+                loading && (<div>Loading...</div>) || <CoinList data={resultSearchList} form={true} addCoin={addCoin} removeCoin={removeCoin}/>
             }
             <hr/>
         </>

@@ -14,9 +14,8 @@ export default function App(){
   useEffect(() => {
     
     async function getData() {
-      console.log('app вызов');
-      const storedData = JSON.parse(localStorage.getItem('coins') || '{topCoins : [], userCoins : []}');
-      const userCoinsID = storedData.userCoins.map(c => c.id);
+      const storedData = JSON.parse(localStorage.getItem('coins') || '{}');
+      const userCoinsID = (storedData.userCoins || []).map(c => c.id);
       const topCoinsURL = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10';
       const userCoinsURL = userCoinsID.length ?  `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${userCoinsID}` : null;
 

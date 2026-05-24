@@ -7,55 +7,34 @@ import { CoinHeader } from "./coin-header";
 
 export function CoinPage(){
     const { coinId } = useParams();
-    const [coinData, setCoinData] = useState([]);
     const [grafData, setGrafData] = useState([]);
-    const [is, setIs] = useState(false);
 
+    const storeData = JSON.parse(localStorage.getItem('coins'));
+    const coinData = [...storeData.topCoins, ...storeData.userCoins];
+    const coin = coinData.find(c => c.id === coinId);
+    const coinSymbol = coin?.symbol?.toUpperCase();
+    const symbol = coinSymbol?.endsWith('USDT') ? coinSymbol : `${coinSymbol}USDT`;
+    
     useEffect(()=>{
         async function getData() {
             try{
-                const [coin, graf] = await Promise.all([
-                                getCoins(`https://api.coingecko.com/api/v3/coins/${coinId}`),
-                                getCoins(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`)  
-                ]);
-                console.log('вызов!"!!!');
-                setCoinData(coin);
+                const  graf = await getCoins(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h&limit=168`);
                 setGrafData(graf);
             } catch(err) {
-                console.error('Ошибка загрузки данных графика и тд: ', err);
+                setGrafData([]);
             }
         }
 
         getData();
-        //const interval = setTimeout(getData, 1 * 10 * 1000);
+    },[coinId])
 
-        //return () => clearTimeout(interval);
-
-    },[is])
-
-
-
-    const coinbaseTicker =  coinData?.tickers?.find(ticker => ticker.market.name === "Coinbase Exchange");
-
-    return(
-        <>
-        <button type="button" onClick={()=>setIs(!is) }>ну</button>        
-        <CoinTools coinId={coinId} lastPrice={coinbaseTicker?.last}/>
-        </>
-    )
+  return(
+    <>
+      <div id="coin-page">
+        <Graf grafData={grafData}/>
+      </div>
+      <CoinHeader coinData={coin}/>
+      <CoinTools coinId={coinId} lastPrice={coin.current_price}/>
+    </>
+  )
 }
-
-/*
-
-
-        <>
-        { 
-        (!coinData?.tickers) ? <div>Loading...</div> : 
-        <div id="coin-page">
-            <Graf grafData={grafData}/>
-            <CoinHeader coinData={coinData}/>
-        </div>
-        }
-        <CoinTools coinId={coinId} lastPrice={coinbaseTicker?.last}/>
-        </>
-*/
