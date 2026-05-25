@@ -10,21 +10,21 @@ export function PNL({ coinId, lastPrice, userCoinsToolsData, updateCoinTools} : 
 
       const posWithID: Position = {...newPosition, id : crypto.randomUUID()};
 
-      updateCoinTools( (coinData) => ({
-         ...coinData, 
-         positions:[...coinData.positions, posWithID]
+      updateCoinTools( (toolsData) => ({
+         ...toolsData, 
+         positions:[...toolsData.positions, posWithID]
       }));
       setNewPosition({id: '', qty: 0, price: 0, date: '' });
    }
 
    function handleRemovePosition(removeID: String){
-     updateCoinTools((coinData)=>({
-         ...coinData, 
-         positions : [...coinData.positions].filter(position => position.id != removeID)}
+     updateCoinTools((toolsData)=>({
+         ...toolsData, 
+         positions : [...toolsData.positions].filter(position => position.id != removeID)}
       ))   
    }
 
-   const positions = userCoinsToolsData?.[coinId]?.positions || [];
+   const positions = userCoinsToolsData?.[coinId]?.positions ?? [];
    const totalInvested = positions.reduce((sum, p) => sum + p.qty * p.price, 0);
    const currentValue = positions.reduce((sum, p) => sum + p.qty * lastPrice, 0);
    const pnl = currentValue - totalInvested;
@@ -33,7 +33,7 @@ export function PNL({ coinId, lastPrice, userCoinsToolsData, updateCoinTools} : 
       <div id ="PNL">
          PNL
          <button onClick={()=> setAddPNL(!addPNL)}>
-            {(addPNL) ? 'Close' : 'Add'} 
+            { addPNL ? 'Close' : 'Add'} 
          </button>
          {addPNL && <div id="add-PNL">
                Количество: <input type="text" value={newPosition.qty} onChange={e=> setNewPosition({...newPosition, qty : Number(e.target.value)})}/><br/>

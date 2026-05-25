@@ -1,16 +1,19 @@
 import { PNL } from "./PNL"
 import { TaskScheduler } from "./task-scheduler";
-import { useLocalStorage } from "../custom-hooks/useLocalStorage";
-import { CoinData, UserCoinsToolsData } from "./types";
+import { useLocalStorage } from "../custom-hooks/useLocalStorage.js";
+import { ToolsData, UserCoinsToolsData, CoinToolsProps,UpdaterCoinData, } from "./types";
 
-export function CoinTools({coinId, lastPrice}){
+export function CoinTools({coinId, lastPrice}: CoinToolsProps){
+
+
     const [userCoinsToolsData, setUserCoinsToolsData] = useLocalStorage<UserCoinsToolsData>('userCoinTools', {});
+    
 
-    function updateCoinTools(updater: (coinData:CoinData)=> CoinData): void{
-        const coinData = userCoinsToolsData[coinId] ?? { positions: [], todos: [] };
-        const newCoinData = updater(coinData);
-        const result = {...userCoinsToolsData, [coinId] :  newCoinData}
-        setUserCoinsToolsData(result);
+    function updateCoinTools(updater: UpdaterCoinData): void{
+        const coinData: ToolsData = userCoinsToolsData[coinId] ?? { positions: [], todos: [] };
+        const newToolsData = updater(coinData);
+        const resultToolsData: UserCoinsToolsData = {...userCoinsToolsData, [coinId] :  newToolsData}
+        setUserCoinsToolsData(resultToolsData);
     }
 
     return(

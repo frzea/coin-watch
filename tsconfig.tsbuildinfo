@@ -1,1 +1,1 @@
-{"root":["./src/components/pnl.tsx","./src/components/coin-info.tsx"],"errors":true,"version":"6.0.3"}
+{"root":["./src/app.tsx","./src/custom.d.ts","./src/components/pnl.tsx","./src/components/coin-header.tsx","./src/components/coin-info.tsx","./src/components/coin-list.tsx","./src/components/coin-page.tsx","./src/components/coin-tools.tsx","./src/components/graf.tsx","./src/components/search.tsx","./src/components/task-scheduler.tsx","./src/components/types.ts","./src/custom-hooks/uselocalstorage.tsx","./src/services/get-coins.tsx"],"version":"6.0.3"}

@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
-import { getCoins } from '../services/get-coins.jsx';
-import { CoinList } from './coin-list.jsx';
+import { useState, useEffect } from 'react';
+import { getCoins } from '../services/get-coins.tsx';
+import { CoinList } from './coin-list.js';
+import { Coin, SearchProps, CoinsResponse } from './types.ts';
 
-export function Search({ addCoin, removeCoin }){
-    const [strSearch, setStrSearch] = useState('');
-    const [resultSearchList, setResultSearchList] = useState([]);
-    const [loading, setLoading] = useState(false);
+export function Search({ addCoin, removeCoin }: SearchProps){
+    const [strSearch, setStrSearch] = useState<string>('');
+    const [resultSearchList, setResultSearchList] = useState<Coin[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
 
     useEffect(()=>{
@@ -18,7 +19,7 @@ export function Search({ addCoin, removeCoin }){
 
         const dilaySearch = setTimeout(async () => {
             try{
-                const resultFind = await getCoins(`https://api.coingecko.com/api/v3/search?query=${strSearch}`);
+                const resultFind: CoinsResponse = await getCoins(`https://api.coingecko.com/api/v3/search?query=${strSearch}`);
                 setResultSearchList(resultFind.coins);
             } catch(err) {
                 console.error(err);
@@ -33,14 +34,14 @@ export function Search({ addCoin, removeCoin }){
         };
     },[strSearch]);
 
-    function handleChangeSearch(e){
+    function handleChangeSearch(e: React.ChangeEvent<HTMLInputElement>){
         setStrSearch(e.target.value);
         setLoading(true); 
     }
 
     return(
         <>
-            <input placeholder="Add item" onChange={e => handleChangeSearch(e)}/>
+            <input placeholder="Add item" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeSearch(e)}/>
             <hr/>
             {
                 loading && (<div>Loading...</div>) || <CoinList data={resultSearchList} form={true} addCoin={addCoin} removeCoin={removeCoin}/>

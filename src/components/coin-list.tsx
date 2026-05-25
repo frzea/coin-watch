@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Link } from "react-router-dom";
+import { CoinListProps } from './types.ts';
 
-
-export function CoinList({ data, form, addCoin, removeCoin }){
+export function CoinList({ data = [], form, addCoin, removeCoin }: CoinListProps){
   return(
     <>
       {data.map(coin => (

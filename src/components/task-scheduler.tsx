@@ -11,17 +11,17 @@ export function TaskScheduler({coinId, userCoinsToolsData, updateCoinTools}: Tod
     }
 
     function handleAddCommit(){
-        updateCoinTools((coinData)=>({
-            ...coinData, 
-            todos : [...coinData.todos, newCommit]
+        updateCoinTools((toolsData)=>({
+            ...toolsData, 
+            todos : [...toolsData.todos, newCommit]
         }))
         setNewCommit({ id: '' , text : '', done : false, date : ''})
     }
 
     function handleEditCommit(id: string, commit: string){
-        updateCoinTools((coinData)=>({
-            ...coinData, 
-            todos : coinData.todos.map(dataid =>
+        updateCoinTools((toolsData)=>({
+            ...toolsData, 
+            todos : toolsData.todos.map(dataid =>
                     (dataid.id === id) ? {...dataid, text: commit, date: new Date().toISOString()} : dataid
             )
         }));

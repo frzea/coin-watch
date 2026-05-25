@@ -1,18 +1,13 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { GrafProps } from './types';
 
 
-export function Graf({grafData}){
+export function Graf({grafData} : GrafProps){
 
-    /*
-    const data = grafData?.prices?.map(([timestamp, price]) => ({
-        date: new Date(timestamp).toLocaleDateString(),
-        price: price
-    })) || [];
-*/
-
+  
 const data = grafData?.map((candle) => ({
   date: new Date(candle[0]).toLocaleDateString(),
-  price: parseFloat(candle[4]) // [4] = close price
+  price: parseFloat(candle[4])
 })) || [];
 
   return (
