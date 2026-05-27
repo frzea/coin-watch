@@ -19,13 +19,17 @@ export function useLocalStorage<T>(key: string, defaultValue: T) : [T, Dispatch<
                 return;
             }
             
-            const valueToStorage =
+            setLocalStorageValue( prev => {
+               const valueToStorage =
                         newValue instanceof Function
-                            ? newValue(localStorageValue)
-                            : newValue;
+                            ? newValue(prev)
+                            : newValue; 
+                
+                localStorage.setItem(key,JSON.stringify(valueToStorage));
+                return valueToStorage;
+            }); 
 
-            setLocalStorageValue(valueToStorage);
-            localStorage.setItem(key,JSON.stringify(valueToStorage));
+
         } catch(error) {
             console.error(error);
         }

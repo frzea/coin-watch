@@ -1,8 +1,8 @@
 
 export interface Position {
   id: string
-  qty: number
-  price: number
+  qty: number | null
+  price: number | null
   date: string
 }
 

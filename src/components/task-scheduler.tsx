@@ -51,5 +51,3 @@ export function TaskScheduler({CoinToolsData, updateCoinTools}: TodoProps){
         </>
     )
 }
-
-
