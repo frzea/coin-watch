@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Position, PNLProps } from "./types";
-import { usePNL} from "./pnl/composable/usePNL";
+import { Position, PNLProps } from "../types";
+//import { usePNL} from "./composable/usePNL";
 
 export function PNL({ CoinToolsData, lastPrice, updateCoinTools} : PNLProps){
    //const [addPNL, setAddPNL] = useState<boolean>(false);

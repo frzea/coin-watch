@@ -1,4 +1,4 @@
-import { PNL } from "./PNL"
+import { PNL } from "./pnl/index.js"
 import { TaskScheduler } from "./task-scheduler";
 import { useLocalStorage } from "../custom-hooks/useLocalStorage.js";
 import { ToolsData, UserCoinsToolsData, CoinToolsProps,UpdaterCoinData, } from "./types";

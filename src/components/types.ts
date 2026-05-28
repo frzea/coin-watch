@@ -1,5 +1,5 @@
 
-export interface Position {
+/*export interface Position {
   id: string
   qty: number | null
   price: number | null
@@ -24,7 +24,7 @@ export interface PNLProps{
     lastPrice: number
     CoinToolsData: ToolsData
     updateCoinTools: (updater:(toolsData: ToolsData) => ToolsData) => void
-}
+}*/
 
 export interface TodoProps{
     CoinToolsData: ToolsData
