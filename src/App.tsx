@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { CoinList } from './components/coin-list.tsx'
-import { Search } from './components/search.tsx'
+import { CoinList } from './components/coin-list/coin-list.tsx'
+import { Search } from './components/search/index.tsx'
 import { getCoins } from './services/get-coins.tsx'
-import { useLocalStorage } from './custom-hooks/useLocalStorage.tsx' 
+import { useLocalStorage } from './composable/useLocalStorage.ts' 
 import { Coin, CoinData } from './components/types.tsx'
 import './index.css'
 
@@ -13,7 +13,7 @@ export default function App(){
   const [coinsData, setCoinsData] = useLocalStorage<CoinData>('coins', { topCoins: [], userCoins: [] });
 
   useEffect(() => {
-    
+    //https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&sparkline=true
     async function getData() {
       const storedData: CoinData = JSON.parse(localStorage.getItem('coins') || '{}');
       const userCoinsID = (storedData.userCoins || []).map(c => c.id);
