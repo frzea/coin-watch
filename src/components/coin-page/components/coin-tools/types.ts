@@ -23,9 +23,4 @@ type UserCoinsToolsData = Record<string, ToolsData>
 
 type UpdaterCoinData = (toolsData : ToolsData) => ToolsData
 
-interface CoinToolsProps{
-    coinId: string
-    lastPrice: number
-}
-
-export type {Position, Todo, ToolsData, UpdateCoinTools, UserCoinsToolsData, UpdaterCoinData, CoinToolsProps}
+export type {Position, Todo, ToolsData, UpdateCoinTools, UserCoinsToolsData, UpdaterCoinData}

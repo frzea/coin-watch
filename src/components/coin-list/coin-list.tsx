@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { CoinListProps } from './type';
+import { useCoinStore } from '../../store/CoinStore'
 
-export function CoinList({ data = [], form, addCoin, removeCoin }: CoinListProps){
+export function CoinList({ data = [], form }: CoinListProps){
+    const {addToUserCoins, removeUserCoin} = useCoinStore();
+
   return(
     <>
       {data.map(coin => (
@@ -9,8 +12,8 @@ export function CoinList({ data = [], form, addCoin, removeCoin }: CoinListProps
           <img src={ coin.image ?? coin.thumb } alt={coin.id} width="15" height="15" />
           {<Link to={'/coin/' + coin.id}>{coin.name}</Link>} --  {coin.current_price}
           {form === true 
-            ? <button onClick={()=>{addCoin(coin)}}>+</button> 
-            : <button onClick={()=>{removeCoin(coin)}}>-</button>
+            ? <button onClick={()=>{addToUserCoins(coin)}}>+</button> 
+            : <button onClick={()=>{removeUserCoin(coin)}}>-</button>
           }
         </li>
       ))}

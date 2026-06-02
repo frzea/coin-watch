@@ -1,8 +1,7 @@
 import { CoinList } from '../coin-list/coin-list';
 import { useSearch } from './useSearch';
-import { SearchProps } from './type'
 
-export function Search({ addCoin,  removeCoin}: SearchProps){
+export function Search(){
    const {resultSearchList, loading, handleChangeSearch } = useSearch();
 
    return(
@@ -11,7 +10,7 @@ export function Search({ addCoin,  removeCoin}: SearchProps){
          <hr/>
          {loading 
             ? <div>Loading...</div>
-            : <CoinList data={resultSearchList} form={true} addCoin={addCoin} removeCoin={removeCoin}/>
+            : <CoinList data={resultSearchList} form={true}/>
          }
          <hr/>
       </>

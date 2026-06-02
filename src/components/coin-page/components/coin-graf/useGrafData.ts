@@ -1,19 +1,23 @@
 import { useState,useEffect } from "react";
-import { Coin, CoinData } from '../../../types';
+import { Coin } from '../../../types';
 import { BinanceData } from './type';
 import { getCoins } from '../../../../services/get-coins';
+import { useCoinStore } from '../../../../store/CoinStore'
 
 
 
 export function useGrafData(coinId: string){
    const [grafData, setGrafData] = useState<BinanceData>([]);
+   const { getCoinById, setSelectedCoin } = useCoinStore();
 
-   const storeData: CoinData = JSON.parse(localStorage.getItem('coins'));
-   const coinData = [...storeData.topCoins, ...storeData.userCoins];
-   const coin: Coin = coinData.find(c => c.id === coinId);
+
+   const coin: Coin = getCoinById(coinId);
    const coinSymbol = coin?.symbol?.toUpperCase();
 
    useEffect(()=>{
+
+      setSelectedCoin(coinId);
+
       let cancelRequest = false;
       async function getData() {
          try{
@@ -42,5 +46,5 @@ export function useGrafData(coinId: string){
       price: parseFloat(candle[4])
    })) || []; 
    
-   return { data, coin}
+   return { data }
 }

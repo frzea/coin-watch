@@ -6,10 +6,10 @@ import { AddPositionForm } from "./components/add-position-form/index.tsx";
 import { PositionList } from "./components/position-list/index.tsx";
 import { calcPNL } from "./composable/pnlCalculations.ts";
 
-export function PNL({lastPrice, CoinToolsData, updateCoinTools}: PNLProps){
+export function PNL({CoinToolsData, updateCoinTools}: PNLProps){
    const {toggleValue, toggle} = useToggle(false);
    const {handleAddPosition, handleRemovePosition, newPosition, setNewPosition } = usePNLPosition(updateCoinTools);
-   const {totalInvested, positions, pnl} = calcPNL(CoinToolsData, lastPrice);
+   const {totalInvested, positions, pnl} = calcPNL(CoinToolsData);
 
    return(
       <div id ="PNL">
