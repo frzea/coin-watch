@@ -6,7 +6,8 @@ import { AddTodoItem } from './components/addTodoItem/index';
 import { useCoinToolsStore } from '../../../../../store/CoinToolsStore';
 
 export function TaskScheduler(){
-   const { getCoinData, selectCoinId} = useCoinToolsStore();
+   const selectCoinId = useCoinToolsStore(store => store.selectCoinId);
+   const getCoinData = useCoinToolsStore(store => store.getCoinData);
    const { editState, updateText, startEdit, stopEdit, isEditing } = useEditState();
    const { newCommit, updateCommit} = useTaskScheduler();
 

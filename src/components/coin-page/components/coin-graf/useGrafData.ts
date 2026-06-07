@@ -9,8 +9,9 @@ import { useCoinToolsStore } from '../../../../store/CoinToolsStore';
 
 export function useGrafData(coinId: string){
    const [grafData, setGrafData] = useState<BinanceData>([]);
-   const { getCoinById, setSelectedCoin } = useCoinStore();
-   const { setSelectedCoinTodo } = useCoinToolsStore();
+   const getCoinById = useCoinStore(store => store.getCoinById);
+   const setSelectedCoin = useCoinStore(store => store.setSelectedCoin);
+   const setSelectedCoinTodo = useCoinToolsStore(store => store.setSelectedCoinTodo);
 
 
    const coin: Coin = getCoinById(coinId);

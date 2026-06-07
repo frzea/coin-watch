@@ -17,5 +17,5 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": ["src", "old-scripts/migration.ts", "old-scripts/usePNLPosition.ts"]
+  "include": ["src", "old-scripts/migration.ts", "old-scripts/usePNLPosition.ts", "old-scripts/useLocalStorage.ts"]
 }

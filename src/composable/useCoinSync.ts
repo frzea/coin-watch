@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 
 export function useCoinSync(){
-      const { syncCoins } = useCoinStore();
+      const syncCoins = useCoinStore(store => store.syncCoins);
     
       useEffect(() => {
         

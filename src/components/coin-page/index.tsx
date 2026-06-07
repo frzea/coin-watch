@@ -8,7 +8,7 @@ import { useCoinStore } from '../../store/CoinStore.ts';
 export function CoinPage(){
     const { coinId } = useParams();
     const { data } = useGrafData(coinId);
-    const { selectCoin } = useCoinStore()
+    const selectCoin = useCoinStore(store => store.selectCoin)
 
     if (!selectCoin) return null 
 

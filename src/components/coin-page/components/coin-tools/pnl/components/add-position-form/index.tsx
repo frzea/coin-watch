@@ -2,7 +2,8 @@ import { AddPositionFormProps } from './type.ts';
 import { useCoinToolsStore } from '../../../../../../../store/CoinToolsStore.ts'
 
 export function AddPositionForm({newPosition,setNewPosition}: AddPositionFormProps){
-   const { addPosition, selectCoinId } = useCoinToolsStore();
+   const selectCoinId = useCoinToolsStore(state => state.selectCoinId)
+   const addPosition = useCoinToolsStore(state => state.addPosition)
    return(
       <>
          Количество: <input type="number" min={0} value={newPosition.qty} onChange={e => setNewPosition({...newPosition, qty : Number(e.target.value)})}/><br/>

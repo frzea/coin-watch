@@ -4,7 +4,7 @@ import { useCoinStore } from '../../../../store/CoinStore.ts';
 
 export function CoinHeader(){
    const {toggleValue, toggle} = useToggle(false);
-   const { selectCoin } = useCoinStore();
+   const selectCoin = useCoinStore(store => store.selectCoin);
 
    return(
       <>

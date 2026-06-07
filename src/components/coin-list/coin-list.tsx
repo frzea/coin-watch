@@ -3,7 +3,8 @@ import { CoinListProps } from './type';
 import { useCoinStore } from '../../store/CoinStore'
 
 export function CoinList({ data = [], form }: CoinListProps){
-    const {addToUserCoins, removeUserCoin} = useCoinStore();
+    const addToUserCoins = useCoinStore(store => store.addToUserCoins);
+    const removeUserCoin = useCoinStore(stoere => stoere.removeUserCoin);
 
   return(
     <>

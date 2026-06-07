@@ -2,7 +2,10 @@ import { TodoItempProps } from './type';
 import { useCoinToolsStore } from '../../../../../../../store/CoinToolsStore';
 
 export function TodoItem({item, startEdit}: TodoItempProps){
-   const {selectCoinId, removeTodo, updateTodo} = useCoinToolsStore();
+   const selectCoinId  = useCoinToolsStore(store => store.selectCoinId);
+   const removeTodo  = useCoinToolsStore(store => store.removeTodo);
+   const updateTodo  = useCoinToolsStore(store => store.updateTodo);
+
    return(
       <li>
          {`${item.text}  Дата: ${new Date(item.date).toLocaleString()}`}

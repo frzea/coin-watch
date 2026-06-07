@@ -1,10 +1,9 @@
 import { AddTodoItemProps } from "./type";
-import { useCoinStore } from '../../../../../../../store/CoinStore';
 import { useCoinToolsStore } from '../../../../../../../store/CoinToolsStore';
 
 export function AddTodoItem({newCommit, updateCommit} : AddTodoItemProps){
-   const { selectCoinId } = useCoinStore();
-   const { addTodo } = useCoinToolsStore();
+   const selectCoinId = useCoinToolsStore(store => store.selectCoinId);
+   const addTodo = useCoinToolsStore(store => store.addTodo);
    return(
       <>
          PLAN 

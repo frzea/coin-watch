@@ -3,7 +3,8 @@ import { useCoinToolsStore } from '../../../../../../../store/CoinToolsStore';
 
 
 export function EditTodoItem({item, editState, updateText, stopEdit} : EditTodoItemProps){
-   const {selectCoinId ,updateTodo } = useCoinToolsStore();
+   const selectCoinId = useCoinToolsStore(state => state.selectCoinId)
+   const updateTodo = useCoinToolsStore(state => state.updateTodo)
    
    return(
       <div key={item.id}>

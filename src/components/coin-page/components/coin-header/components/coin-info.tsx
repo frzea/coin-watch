@@ -2,7 +2,7 @@ import { useCoinStore } from '../../../../../store/CoinStore';
 
 
 export function CoinInfo(){
-    const { selectCoin } = useCoinStore();
+    const selectCoin = useCoinStore(store => store.selectCoin);
     return (
         <div id="coinInfo">
             <h4>Последняя цена:  {selectCoin.current_price}</h4>
