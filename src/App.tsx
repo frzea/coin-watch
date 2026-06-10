@@ -17,12 +17,16 @@ export default function App(){
     <>
       <div className='bg-white dark:bg-gray-600 text-black dark:text-white'>
         <div>
-          <div className='flex justify-between'>
-            <div className='mx-5'>HOLDNote</div>
-            <button className=' border w-5' onClick={ChangeMode}>*</button>
+          <div className='flex justify-between pt-3 px-5'>
+            <div>HOLDNote</div>
+            <button className='border rounded-lg w-5' onClick={ChangeMode}>*</button>
           </div>
           <Search />
-          <CoinList data={topCoins} form={true} />
+          <div className='px-5 py-3'>
+            <div>My coins</div>
+            <hr/>
+            <CoinList data={topCoins} form={true} />
+          </div>
           <hr/>
           <CoinList data={userCoins} form={false} />
         </div>
