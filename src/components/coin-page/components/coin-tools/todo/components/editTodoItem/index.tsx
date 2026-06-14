@@ -1,5 +1,11 @@
 import { EditTodoItemProps } from "./type";
 import { useCoinToolsStore } from '../../../../../../../store/CoinToolsStore';
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Field,
+  FieldContent,
+  FieldLabel,
+} from "@/components/ui/field"
 
 
 export function EditTodoItem({item, editState, updateText, stopEdit} : EditTodoItemProps){
@@ -8,9 +14,18 @@ export function EditTodoItem({item, editState, updateText, stopEdit} : EditTodoI
    
    return(
       <div key={item.id}>
-      <input type="text" value={editState.text ?? ''} onChange={e=> updateText(e.target.value)}/>
-      <button onClick={()=> {updateTodo(selectCoinId, item.id, {text : editState?.text ?? item.text, date: new Date().toISOString()}); stopEdit()}}>save</button>
-      <button onClick={stopEdit}>esc</button> 
+      <FieldLabel>
+        <Field orientation="horizontal">
+          <FieldContent>
+            <Textarea
+              value={editState.text ?? ''}
+              onChange={e => updateText(e.target.value)}
+            />
+          </FieldContent>
+            <button onClick={()=> {updateTodo(selectCoinId, item.id, {text : editState?.text ?? item.text, date: new Date().toISOString()}); stopEdit()}}>save</button>
+            <button onClick={stopEdit}>esc</button> 
+        </Field>
+      </FieldLabel>
       </div>
    )
 }

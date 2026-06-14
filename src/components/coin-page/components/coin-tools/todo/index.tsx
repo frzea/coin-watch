@@ -4,36 +4,58 @@ import { EditTodoItem } from './components/editTodoItem/index';
 import { TodoItem } from './components/todoItem/index';
 import { AddTodoItem } from './components/addTodoItem/index'; 
 import { useCoinToolsStore } from '../../../../../store/CoinToolsStore';
+import { useToggle } from '../../../../../composable/useToggle.ts'
 
 export function TaskScheduler(){
-   const selectCoinId = useCoinToolsStore(store => store.selectCoinId);
+   const {toggleValue, toggle} = useToggle(false);
+   const {selectCoinId} = useCoinToolsStore();
    const getCoinData = useCoinToolsStore(store => store.getCoinData);
    const { editState, updateText, startEdit, stopEdit, isEditing } = useEditState();
    const { newCommit, updateCommit} = useTaskScheduler();
 
    const CoinToolsData = getCoinData(selectCoinId);
    return(
-      <>
-         <AddTodoItem 
-            newCommit={newCommit} 
-            updateCommit={updateCommit} 
-         />
-         <hr/>
-         {CoinToolsData.todos?.map(item =>
-            isEditing(item.id) 
-            ? <EditTodoItem 
-                  key={item.id} 
-                  item={item} 
-                  editState={editState} 
-                  updateText={updateText}
-                  stopEdit={stopEdit}
-            />
-            : <TodoItem 
-                  key={item.id}
-                  item={item}
-                  startEdit={startEdit}
-            /> 
+      <div id ="Todo" className="mb-3">
+         {toggleValue && (
+            <div className="fixed inset-0 bg-black/5 backdrop-blur-sm flex items-center justify-center z-50" onClick={toggle}>
+               <div className="bg-white dark:bg-neutral-900  px-5 py-2 shadow-xl border border-white w-2/3" onClick={e => e.stopPropagation()}>
+                  <div className="flex justify-between">
+                     <h2 className="text-lg font-bold">Add todo</h2>
+                     <button onClick={toggle}>✕</button>
+                  </div>
+
+                  <AddTodoItem 
+                     newCommit={newCommit} 
+                     updateCommit={updateCommit}
+                     toggle={toggle}
+                  />
+               </div>
+            </div>
          )}
-      </>
+
+         <div className="flex-row">
+            {CoinToolsData.todos?.map(item =>
+               isEditing(item.id) 
+               ? <EditTodoItem 
+                     key={item.id} 
+                     item={item} 
+                     editState={editState} 
+                     updateText={updateText}
+                     stopEdit={stopEdit}
+               />
+               : <TodoItem 
+                     key={item.id}
+                     item={item}
+                     startEdit={startEdit}
+               /> 
+            )}
+         </div>
+         <button
+            onClick={toggle}
+            className="w-full mt-2 py-2 text-sm text-muted-foreground border border-dashed border-border rounded-lg hover:bg-muted transition-colors"
+            >
+            + Add todo
+         </button>
+      </div>
    )
 }

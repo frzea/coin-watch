@@ -7,7 +7,7 @@ export function useCoinSync(){
     
       useEffect(() => {
         
-        syncCoins();
+        //syncCoins();
 
         const interval: number = setInterval(syncCoins, 1 * 60 * 1000);
     

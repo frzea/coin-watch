@@ -5,9 +5,9 @@ export function Graf({data}: GrafProps){
 
   return (
     <LineChart
-      width={800} height={400}
-      //style={{ width: '100%', maxWidth: '800px', height: '100%', maxHeight: '70vh', aspectRatio: 1.618 }}
-      style={{ background: '#e9e9f0', borderRadius: '8px' }}
+      //width={800} height={400}
+      style={{ width: '100%', maxWidth: '800px', height: '100%', maxHeight: '70vh', aspectRatio: 1.618, background: '#e9e9f0', borderRadius: '8px'  }}
+      //style={{ background: '#e9e9f0', borderRadius: '8px' }}
       responsive
       data={data}
       margin={{

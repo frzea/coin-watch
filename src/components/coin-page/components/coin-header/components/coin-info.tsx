@@ -1,16 +1,69 @@
-import { useCoinStore } from '../../../../../store/CoinStore';
+import{useCoinInfoCalc} from './useCoinInfoCalc'
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
 
 
 export function CoinInfo(){
-    const selectCoin = useCoinStore(store => store.selectCoin);
-    return (
-        <div id="coinInfo">
-            <h4>Последняя цена:  {selectCoin.current_price}</h4>
-            <h4>Капитализация:  {selectCoin.fully_diluted_valuation}</h4>
-            <h4>Самая высокая цена(24ч):  {selectCoin.high_24h}</h4>
-            <h4>Самая низкая цена(24ч):  {selectCoin.low_24h}</h4>
-            <h4>Общая тенденция цены за 24ч:  {selectCoin.price_change_percentage_24h}%</h4>
-            <h4>Обьем торгов за 24ч:  {selectCoin.total_volume}</h4>
-        </div>
-    )
+   const {capitalization, totalInvested, profitLossPercent,isPositive, pnl, totalQty, avgPrice} = useCoinInfoCalc();
+
+   return (
+      <Card className="@container/card mb-5">
+         <CardHeader>
+            <CardDescription>Capitalization</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+               ${(capitalization ?? 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 2,})}
+            </CardTitle>
+            <CardAction>
+               <Badge variant="outline" className={`${isPositive ? 'bg-emerald-500/20 text-emerald-500' : 'bg-red-500/20 text-red-500'}`}>
+                  {isPositive ? <IconTrendingUp /> : <IconTrendingDown /> } 
+                  <span className={`text-xs font-medium px-1 py-1 rounded w-auto flex justify-center `}>
+                     {isPositive ? '+' : ''}{Number(profitLossPercent).toFixed(2)}%
+                  </span>
+               </Badge>
+            </CardAction>
+         </CardHeader>
+         <CardFooter className="flex-col items-start gap-1.5 text-sm">
+            <div className='flex justify-between w-full'>
+               <div className="text-muted-foreground">
+                  Total Qty
+               </div>
+               <div className="line-clamp-1 flex gap-2 font-medium">
+                  {(totalQty ?? 0).toLocaleString('en-US', {minimumFractionDigits: 0,maximumFractionDigits: 2,})}
+               </div>
+            </div>
+           <div className='flex justify-between w-full'>
+               <div className="text-muted-foreground">
+                  Total Invested 
+               </div>
+               <div className="line-clamp-1 flex gap-2 font-medium" >
+                  ${(totalInvested ?? 0).toLocaleString('en-US', {minimumFractionDigits: 0,maximumFractionDigits: 2,})}
+               </div>
+            </div>
+           <div className='flex justify-between w-full'>
+               <div className="text-muted-foreground">
+                  PNL
+               </div>  
+               <div className="line-clamp-1 flex gap-2 font-medium">
+                  ${(pnl ?? 0).toLocaleString('en-US', {minimumFractionDigits: 0,maximumFractionDigits: 2,})}
+               </div>            
+            </div>
+            <div className='flex justify-between w-full'>
+               <div className="text-muted-foreground">
+                  AVG Pirce
+               </div>  
+               <div className="line-clamp-1 flex gap-2 font-medium">
+                  ${(avgPrice ?? 0).toLocaleString('en-US', {minimumFractionDigits: 0,maximumFractionDigits: 2,})}
+               </div>            
+            </div>
+         </CardFooter>
+      </Card>        
+   )
 }
