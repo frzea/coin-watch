@@ -14,11 +14,11 @@ export function CoinPage(){
     if (!selectCoin) return null 
 
   return (
-    <div className='px-3 flex-row items-center'>
+    <div className='flex px-3 flex-col min-h-screen'>
       <div className="md:hidden">
         <Header />
       </div>
-      <div className="hidden md:flex w-80 h-50">
+      <div className="hidden">
         <Graf data={data}/>
       </div>
       <CoinHeader />

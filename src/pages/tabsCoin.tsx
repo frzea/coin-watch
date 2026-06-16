@@ -1,6 +1,7 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useCoinStore } from '../store/CoinStore';
 import { CoinList } from '../components/coin-list/coin-list.tsx'
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 
 export function TabsCoins(){
@@ -20,7 +21,9 @@ export function TabsCoins(){
             <CoinList data={userCoins} form={false} />
          </TabsContent>
          <TabsContent value="homemade">
-            <CoinList data={purchasedCoins} form={null} />
+            <ScrollArea className="rounded-md border p-4">
+                  <CoinList data={purchasedCoins} form={null} />
+            </ScrollArea>
          </TabsContent>
       </Tabs>    
    )

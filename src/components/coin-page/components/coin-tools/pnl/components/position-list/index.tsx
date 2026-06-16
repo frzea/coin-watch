@@ -15,7 +15,7 @@ export function PositionList({pos, index}: PositionListProps) {
   const date = new Date(pos.date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
 
   return (
-    <div className="flex items-center justify-between py-2 pl-2 pr-1 my-1 rounded-md  bg-neutral-100  dark:bg-neutral-800">
+    <div className="flex items-center justify-between py-2 pl-2 pr-1 my-0.5 rounded-md  bg-neutral-100  dark:bg-neutral-800">
       <div className="flex items-center gap-3 text-sm">
         <span className="text-muted-foreground">{date}</span>
         <span className="text-muted-foreground">×{pos.qty}</span>

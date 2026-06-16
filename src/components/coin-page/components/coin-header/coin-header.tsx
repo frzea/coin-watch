@@ -1,10 +1,7 @@
-import { useToggle } from "../../../../composable/useToggle.ts";
 import { CoinInfo } from "./components/coin-info.tsx";
 import { useCoinStore } from '../../../../store/CoinStore.ts';
-import { Button } from "@/components/ui/button"
 
 export function CoinHeader(){
-   const {toggleValue, toggle} = useToggle(true);
    const coin = useCoinStore(store => store.selectCoin);
 
    const change = coin.price_change_percentage_24h ?? 0;
@@ -12,7 +9,7 @@ export function CoinHeader(){
 
    return(
       <>
-         <div className="flex py-5 items-center">
+         <div className="flex shrink-0 py-5 items-center">
             <img src={coin.image ?? coin.thumb} alt={coin.id} width={30} height={30} className="rounded-full shrink-0 w-13 h-13 object-cover" />
             <div className="flex-row px-1">
                <div className="flex">
@@ -30,9 +27,8 @@ export function CoinHeader(){
                   </span>
                </div>
             </div>
-
          </div>
-         {toggleValue && <CoinInfo />}
+          <CoinInfo />
       </>
    )
 }
