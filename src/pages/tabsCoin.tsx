@@ -2,7 +2,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useCoinStore } from '../store/CoinStore';
 import { CoinList } from '../components/coin-list/coin-list.tsx'
 
-
 export function TabsCoins(){
    const {topCoins, userCoins, purchasedCoins} = useCoinStore();
 
@@ -14,13 +13,13 @@ export function TabsCoins(){
             <TabsTrigger value="homemade">Homemade</TabsTrigger>
          </TabsList>
          <TabsContent value="tops" className="flex  flex-col flex-1 min-h-0">
-            <CoinList data={topCoins} form={true} />
+            <CoinList data={topCoins} mode={'add'} />
          </TabsContent>
          <TabsContent value="follow" className="flex  flex-col flex-1 min-h-0">
-            <CoinList data={userCoins} form={false} />
+            <CoinList data={userCoins} mode={'remove'} />
          </TabsContent>
          <TabsContent value="homemade" className="flex  flex-col flex-1 min-h-0">
-            <CoinList data={purchasedCoins} form={null} />
+            <CoinList data={purchasedCoins} mode={'view'} />
          </TabsContent>
       </Tabs>    
    )

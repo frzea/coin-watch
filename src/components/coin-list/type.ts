@@ -1,6 +1,10 @@
 import { Coin } from '../types'
 
-export interface CoinListProps{
+type CoinListMode = 'add' | 'remove' | 'view';
+
+interface CoinListProps{
     data: Coin[]
-    form: boolean | null
+    mode: CoinListMode;
 }
+
+export type {CoinListMode, CoinListProps}

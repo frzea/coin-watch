@@ -1,4 +1,5 @@
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
+import { Moon, Sun } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -21,8 +22,11 @@ function Switch({
     >
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
-        className="pointer-events-none block rounded-full bg-background ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 group-data-[size=default]/switch:data-checked:translate-x-[calc(100%-2px)] group-data-[size=sm]/switch:data-checked:translate-x-[calc(100%-2px)] dark:data-checked:bg-primary-foreground group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground"
-      />
+        className="pointer-events-none relative flex items-center justify-center rounded-full bg-background ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 group-data-[size=default]/switch:data-checked:translate-x-[calc(100%-2px)] group-data-[size=sm]/switch:data-checked:translate-x-[calc(100%-2px)] dark:data-checked:bg-primary-foreground group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground"
+      >
+        <Sun size={8} strokeWidth={2.5} className="absolute text-yellow-400 opacity-100 transition-opacity group-data-checked/switch:opacity-0" />
+        <Moon size={10} className="absolute opacity-0 transition-opacity group-data-checked/switch:opacity-100" />
+      </SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
   )
 }

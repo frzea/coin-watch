@@ -13,7 +13,6 @@ export function PositionList({pos, index}: PositionListProps) {
 
   const pnl = (selectCoin.current_price - pos.price) * pos.qty;
   const isPositive = pnl >= 0;
-
   const date = new Date(pos.date).toLocaleDateString('ru-RU');
 
   return (
@@ -21,26 +20,17 @@ export function PositionList({pos, index}: PositionListProps) {
       <div className="flex items-center gap-2 sm:gap-3 md:gap-7">
         <span className="text-muted-foreground">{ date }</span>
         <span className="text-muted-medium">×{pos.qty}</span>
-        <span className="text-muted-foreground">по</span>
+        <span className="text-muted-foreground">price:</span>
         <span className="font-medium">
           ${pos.price.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
         </span>
       </div>
-
       <div className="flex items-center gap-2">
         <div className=" hidden text-muted-foreground text-xs md:block">pnl/pos</div>
         <span className={`text-xs font-medium ${isPositive ? 'text-emerald-500' : 'text-red-500'} sm:text-md`}>
           {isPositive ? '+' : '-'}${Math.abs(pnl).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
         </span>
-        <Button
-          variant="outline"
-          size='xs'
-          onClick={() => removePosition(selectCoinId, pos.id)}
-            /*className="w-auto h-auto flex items-center justify-center rounded-md text-xs
-                     bg-neutral-200 hover:bg-red-500/20 hover:text-red-500
-                     dark:bg-neutral-700 dark:hover:bg-red-500/20 dark:hover:text-red-500
-                     text-muted-foreground transition-colors"*/
-        >
+        <Button variant="outline" size='xs' onClick={() => removePosition(selectCoinId, pos.id)}>
           <X size={16} absoluteStrokeWidth />
         </Button>
       </div>

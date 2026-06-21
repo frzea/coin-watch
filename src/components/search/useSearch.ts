@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getCoins } from '../../services/get-coins.tsx';
 import {CoinsResponse } from './type.ts';
 import { Coin } from '../types.ts';
@@ -7,7 +7,6 @@ export function useSearch(){
     const [strSearch, setStrSearch] = useState<string>('');
     const [resultSearchList, setResultSearchList] = useState<Coin[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-
 
     useEffect(()=>{
 
@@ -34,10 +33,12 @@ export function useSearch(){
         };
     },[strSearch]);
 
-    function handleChangeSearch(e: React.ChangeEvent<HTMLInputElement>){
-        setStrSearch(e.target.value);
-        setLoading(true); 
-    }
 
-    return { resultSearchList, loading, handleChangeSearch } 
+    const handleChangeSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+            setStrSearch(e.target.value);
+            setLoading(true); 
+        }, []
+    )
+
+    return { resultSearchList, loading, handleChangeSearch} 
 }
